@@ -47,9 +47,4 @@
       />
     </Modal>
   </div>
-  <div class="h-64">
-    <pre class="bg-zinc-950 rounded-xl text-xs p-4 py-2">
-      {JSON.stringify(session.data, undefined, 4)}
-    </pre>
-  </div>
 </div>

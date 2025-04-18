@@ -16,10 +16,12 @@
 </script>
 
 <div class="layout bg-zinc-800">
-  <div class="bg-zinc-950 flex flex-row md:flex-col p-4 h-screen sticky top-0">
+  <div
+    class="bg-zinc-950 flex flex-row md:flex-col p-4 h-full md:h-screen sticky top-0 z-50"
+  >
     <Sidebar />
   </div>
-  <div class="min-h-screen h-full w-full flex flex-col bg-zinc-950">
+  <div class="min-h-screen h-full w-full flex flex-col bg-zinc-950 z-10">
     {@render children()}
   </div>
 </div>

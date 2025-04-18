@@ -7,5 +7,4 @@
 <SidebarButton href="/" icon={Bolt} label="Workout" />
 <SidebarButton href="/history" icon={Clock} label="History" />
 <SidebarButton href="/" icon={ChartBar} label="Analytics" />
-<div class="flex-1"></div>
 <SidebarButton href="/profile" icon={UserCircle} label="Profile" />
