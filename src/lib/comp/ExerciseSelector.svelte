@@ -1,5 +1,6 @@
 <script lang="ts">
   import { exerciseDb, type ExerciseType } from '$lib/log.svelte'
+  import Badge from '$lib/mono/Badge.svelte'
   import Button from '$lib/mono/Button.svelte'
   import Option from '$lib/mono/forms/select/Option.svelte'
   import Select from '$lib/mono/forms/select/Select.svelte'
@@ -54,9 +55,16 @@
         </div>
       {/each}
     </div>
-    <div>
-      <p>{session.activeExercise.type}</p>
-      <p>{session.activeExercise.sets.length} sets logged</p>
+    <p class="font-medium text-lg capitalize">
+      {session.activeExercise.type}
+    </p>
+    <div class="space-y-0.5">
+      <p class="text-sm">{session.activeExercise.sets.length} sets logged</p>
+      <div class="flex flex-row gap-2 flex-wrap">
+        {#each session.activeExercise.sets as set}
+          <Badge>{set.reps} × {set.weight}lb</Badge>
+        {/each}
+      </div>
     </div>
   {/if}
   <div></div>

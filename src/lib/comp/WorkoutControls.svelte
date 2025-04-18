@@ -43,46 +43,54 @@
   }
 </script>
 
-<button
-  onclick={handleWorkout}
-  class={[
-    'rounded-full w-24 h-24 grid place-items-center cursor-pointer relative',
-    'active:scale-95 transition-all z-10',
-    session.state == 'inactive'
-      ? 'bg-zinc-50 text-zinc-900'
-      : 'bg-zinc-700 text-zinc-100',
-  ]}
->
-  {#if session.state == 'rest'}
-    <div
-      style="background: conic-gradient(rgba(60 60 255 / 1) {360 *
-        (restTween.current / (restTime / 1000))}deg, rgba(60 60 255 / 0) 0deg)"
-      class="absolute -inset-0.5 bg-blue-500 -z-10 rounded-full"
-    ></div>
-  {/if}
+<div class="items-center flex flex-col gap-2">
+  <button
+    onclick={handleWorkout}
+    class={[
+      'rounded-full w-24 h-24 grid place-items-center cursor-pointer relative',
+      'active:scale-95 transition-all z-10',
+      session.state == 'inactive'
+        ? 'bg-zinc-50 text-zinc-900'
+        : 'bg-zinc-900 text-zinc-100',
+    ]}
+  >
+    {#if session.state == 'rest'}
+      <div
+        style="background: conic-gradient(rgba(60 60 255 / 1) {360 *
+          (restTween.current /
+            (restTime / 1000))}deg, rgba(60 60 255 / 0) 0deg)"
+        class="absolute -inset-0.5 bg-blue-500 -z-10 rounded-full"
+      ></div>
+    {/if}
 
-  <Icon
-    src={session.state == 'active'
-      ? Pause
-      : session.state == 'inactive'
-        ? Play
-        : session.state == 'rest'
-          ? PlayPause
-          : Play}
-    size="40"
-    solid
-  />
-</button>
-{session.state}
-{session.state == 'rest' ? `(${Math.floor(restTween.current)})` : ''}
-
-<div class="mt-8 flex flex-col">
-  rest time {restTime / 1000}
-  <input
-    type="range"
-    min={15}
-    max={300}
-    step={15}
-    bind:value={() => restTime / 1000, (v) => (restTime = v * 1000)}
-  />
+    <Icon
+      src={session.state == 'active'
+        ? Pause
+        : session.state == 'inactive'
+          ? Play
+          : session.state == 'rest'
+            ? PlayPause
+            : Play}
+      size="40"
+      solid
+    />
+  </button>
+  <div>
+    <span class="font-medium capitalize">
+      {session.state}
+    </span>
+    <span>
+      {session.state == 'rest' ? `(${Math.floor(restTween.current)}s)` : ''}
+    </span>
+  </div>
+  <div class="mt-8 flex flex-col">
+    rest time {restTime / 1000}
+    <input
+      type="range"
+      min={15}
+      max={300}
+      step={15}
+      bind:value={() => restTime / 1000, (v) => (restTime = v * 1000)}
+    />
+  </div>
 </div>

@@ -33,11 +33,16 @@ export interface ExerciseDefinition {
 }
 
 export const exerciseDb: Record<string, ExerciseDefinition> = {
-  barbellCurl: {
+  bicepCurl: {
     primaryMuscles: ['biceps'],
     secondaryMuscles: ['forearms'],
     category: ['isolation', 'hypertrophy'],
-    equipment: ['barbell'],
+    equipment: ['barbell', 'dumbbell', 'cable'],
+  },
+  row: {
+    primaryMuscles: ['lats'],
+    secondaryMuscles: ['biceps', 'core'],
+    category: ['isolation', 'hypertrophy'],
   },
   benchPress: {
     primaryMuscles: ['chest'],
@@ -72,6 +77,12 @@ export const exerciseDb: Record<string, ExerciseDefinition> = {
     primaryMuscles: ['lats', 'forearms'],
     secondaryMuscles: ['biceps', 'core'],
     category: ['strength'],
+  },
+  deadHang: {
+    primaryMuscles: ['forearms'],
+    category: ['strength'],
+    secondaryMuscles: ['biceps', 'lats', 'shoulders'],
+    equipment: ['pullBar'],
   },
 }
 

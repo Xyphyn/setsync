@@ -8,58 +8,65 @@
 
   interface Props {
     submitted?: boolean
+    onsubmit?: (submitted: boolean) => void
+    data?: { reps: number; weight: number }
   }
 
-  let { submitted = false }: Props = $props()
+  let { submitted = $bindable(false), onsubmit, data }: Props = $props()
 
   let session: WorkoutSession = getContext('session')
 
   let logData = $state<{
     reps: number
     weight: number
-  }>({ reps: 0, weight: 0 })
+  }>(data ?? { reps: 0, weight: 0 })
 
-  function handleLog() {
-    session.logSet({ reps: logData.reps, weight: logData.weight })
+  function handleLog(editing: boolean) {
+    console.log(editing, session.activeExercise!.sets.length - 1)
+    session.logSet(
+      { reps: logData.reps, weight: logData.weight },
+      editing ? session.activeExercise!.sets.length - 1 : undefined
+    )
     submitted = true
+    onsubmit?.(submitted)
     logData.reps = 0
   }
 </script>
 
 <fieldset
   class={[
-    ' border border-zinc-800 rounded-xl p-5 max-w-xl w-full gap-4 flex flex-col transition-colors',
-    submitted ? 'bg-zinc-900' : 'bg-zinc-950',
+    'bg-zinc-950 border border-zinc-800 rounded-xl p-5 max-w-xl w-full gap-4 flex flex-col transition-colors',
   ]}
 >
   <legend class="text-sm font-medium">Log set</legend>
+  {#if submitted}
+    Editing last set
+  {/if}
   {#if session.activeExercise}
-    {#if !submitted}
-      <form
-        onsubmit={(e) => {
-          e.preventDefault()
-          handleLog()
-        }}
-        class="space-y-2"
-        out:slide={{ duration: 500, easing: expoOut, axis: 'y' }}
-      >
-        <TextInput
-          label="Reps"
-          size="sm"
-          class="rounded-lg"
-          type="number"
-          bind:value={logData.reps}
-        />
-        <TextInput
-          label="Weight"
-          size="sm"
-          class="rounded-lg"
-          type="number"
-          bind:value={logData.weight}
-        />
-        <Button submit color="primary" rounding="xl">Submit</Button>
-      </form>
-    {/if}
+    <form
+      onsubmit={(e) => {
+        e.preventDefault()
+        handleLog(submitted)
+      }}
+      class="space-y-2"
+      out:slide={{ duration: 500, easing: expoOut, axis: 'y' }}
+    >
+      <TextInput
+        label="Reps"
+        size="sm"
+        class="rounded-lg"
+        type="number"
+        bind:value={logData.reps}
+      />
+      <TextInput
+        label="Weight"
+        size="sm"
+        class="rounded-lg"
+        type="number"
+        bind:value={logData.weight}
+      />
+      <Button submit color="primary" rounding="xl">Submit</Button>
+    </form>
   {:else}
     You need to choose an exercise to log sets.
   {/if}

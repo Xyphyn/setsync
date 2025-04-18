@@ -1,10 +1,10 @@
 <script lang="ts">
   import WorkoutView from '$lib/comp/WorkoutView.svelte'
-  import { WorkoutSession } from '$lib/session.svelte'
+  import { sessionHandler } from '$lib/session.svelte'
 
-  let session = new WorkoutSession()
+  sessionHandler.startSession()
 </script>
 
 <div class="p-6">
-  <WorkoutView {session} />
+  <WorkoutView session={sessionHandler.active!} />
 </div>

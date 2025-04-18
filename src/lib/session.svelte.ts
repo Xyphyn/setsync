@@ -16,16 +16,19 @@ export class WorkoutSession {
   constructor() {
     this.state = 'inactive'
     this.#data.id = uuidv4()
+    this.#data.date = new Date().toISOString()
 
     $effect(() => {
-      if (this.state !== 'inactive' || this.#data.exercises.length > 0) {
+      if (this.#data.exercises.length > 0) {
         profile.saveSession(this.#data)
       }
     })
   }
 
-  logSet(set: ExerciseSet) {
-    this.activeExercise?.sets.push(set)
+  logSet(set: ExerciseSet, index?: number) {
+    if (index != undefined && this.activeExercise)
+      this.activeExercise.sets[index] = set
+    else this.activeExercise?.sets.push(set)
   }
 
   get data() {
@@ -41,3 +44,13 @@ export class WorkoutSession {
 
   async save() {}
 }
+
+class SessionHandler {
+  active: WorkoutSession | undefined = $state()
+
+  startSession() {
+    this.active = new WorkoutSession()
+  }
+}
+
+export let sessionHandler = new SessionHandler()
