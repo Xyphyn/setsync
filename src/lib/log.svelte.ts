@@ -1,3 +1,5 @@
+import { browser } from '$app/environment'
+
 // Define muscle groups
 export type MuscleGroup =
   | 'biceps'
@@ -78,7 +80,7 @@ export type ExerciseType = keyof typeof exerciseDb
 export interface Session {
   name?: string
   date?: string
-  id: number
+  id: string
   exercises: Exercise[]
 }
 
@@ -109,10 +111,35 @@ export class Profile {
     },
   })
 
+  constructor() {
+    this.#data.sessions = Profile.loadSessions()
+  }
+
   set data(v: ProfileData) {
     this.#data = v
   }
   get data() {
     return this.#data
   }
+
+  saveSession(session: Session) {
+    const index = this.#data.sessions.findIndex((s) => s.id == session.id)
+
+    if (index == -1) this.#data.sessions.push(session)
+    else this.#data.sessions[index] = session
+
+    if (browser)
+      localStorage.setItem('sessions', JSON.stringify(this.#data.sessions))
+  }
+
+  static loadSessions(): Session[] {
+    if (!browser) return []
+
+    const stored = localStorage.getItem('sessions')
+    if (!stored) return []
+    const parsed: Session[] = JSON.parse(stored)
+    return parsed
+  }
 }
+
+export let profile = new Profile()

@@ -1,14 +1,27 @@
-import type { Exercise, ExerciseSet, Session } from './log'
+import {
+  profile,
+  type Exercise,
+  type ExerciseSet,
+  type Session,
+} from './log.svelte'
+import { v4 as uuidv4 } from 'uuid'
 
 export class WorkoutSession {
   #data = $state<Session>({
-    id: 0,
+    id: '',
     exercises: [],
   })
   state: 'active' | 'rest' | 'inactive' = $state('inactive')
 
   constructor() {
     this.state = 'inactive'
+    this.#data.id = uuidv4()
+
+    $effect(() => {
+      if (this.state !== 'inactive' || this.#data.exercises.length > 0) {
+        profile.saveSession(this.#data)
+      }
+    })
   }
 
   logSet(set: ExerciseSet) {
@@ -25,4 +38,6 @@ export class WorkoutSession {
   set activeExercise(v: Exercise) {
     this.#data.exercises[this.#data.exercises.length] = v
   }
+
+  async save() {}
 }

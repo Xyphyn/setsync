@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { exerciseDb, type ExerciseType } from '$lib/log'
+  import { exerciseDb, type ExerciseType } from '$lib/log.svelte'
   import Button from '$lib/mono/Button.svelte'
   import Option from '$lib/mono/forms/select/Option.svelte'
   import Select from '$lib/mono/forms/select/Select.svelte'
