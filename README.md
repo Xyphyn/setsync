@@ -4,7 +4,7 @@ This is an app I'm making for myself to help track weightlifting, and to provide
 
 #### Progress
 
-[===..................]
+[===. . . . . . . . . . . . . . . . . .]
 
 ### Planned features
 
