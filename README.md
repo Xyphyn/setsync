@@ -1,38 +1,15 @@
-# sv
+# setsync
 
-Everything you need to build a Svelte project, powered by [`sv`](https://github.com/sveltejs/cli).
+This is an app I'm making for myself to help track weightlifting, and to provide a simple timer for rest
 
-## Creating a project
+#### Progress
 
-If you're seeing this, you've probably already done this step. Congrats!
+[===..................]
 
-```bash
-# create a new project in the current directory
-npx sv create
+### Planned features
 
-# create a new project in my-app
-npx sv create my-app
-```
-
-## Developing
-
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
-
-```bash
-npm run dev
-
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
-```
-
-## Building
-
-To create a production version of your app:
-
-```bash
-npm run build
-```
-
-You can preview the production build with `npm run preview`.
-
-> To deploy your app, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.
+- Diagram for the muscle groups you've hit
+  - Color/ranks based on how close you are to your goal
+  - Help you see what is lacking
+- Presets for splits
+- Set goals
