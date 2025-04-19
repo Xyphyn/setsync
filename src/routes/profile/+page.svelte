@@ -39,6 +39,8 @@
     best: { weight: number; reps: number },
     goal: { weight: number; reps: number }
   ): number {
+    if (best.weight == 0 || goal.weight == 0) return best.reps / goal.reps
+
     const best1RM = best.weight * (1 + best.reps / 30)
     const goal1RM = goal.weight * (1 + goal.reps / 30)
 
@@ -75,14 +77,9 @@
     > = {}
 
     for (let i = 0; i < sessions.length; i++) {
-      console.log($state.snapshot(sessions))
       for (let j = 0; j < sessions[i].exercises.length; j++) {
-        console.log(j)
         const exercise = sessions[i].exercises[j]
-        if (!exercise) {
-          console.log('Stopped at', sessions[i].exercises[j])
-          continue
-        }
+        if (!exercise) continue
         const oneRMs = exercise.sets.map((i) => i.weight * (1 + i.reps / 30))
         // TODO add error handling if array empty
         const max1RM = findMaxAndIndex(oneRMs)
