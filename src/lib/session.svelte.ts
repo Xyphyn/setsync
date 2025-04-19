@@ -11,6 +11,7 @@ export class WorkoutSession {
   #data = $state<Session>({
     id: '',
     exercises: [],
+    active: 0,
   })
   state: 'active' | 'rest' | 'inactive' = $state('inactive')
 
@@ -46,10 +47,10 @@ export class WorkoutSession {
   }
 
   get activeExercise(): Exercise | undefined {
-    return this.#data.exercises[this.#data.exercises.length - 1]
+    return this.#data.exercises[this.#data.active]
   }
   set activeExercise(v: Exercise) {
-    this.#data.exercises[this.#data.exercises.length] = v
+    this.#data.exercises[this.#data.active] = v
   }
 
   async save() {

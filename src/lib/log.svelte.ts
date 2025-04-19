@@ -28,6 +28,7 @@ export interface ExerciseDefinition {
   primaryMuscles: MuscleGroup[]
   secondaryMuscles: MuscleGroup[]
   category: ExerciseCategory[]
+  variations: string[]
   equipment?: string[]
   notes?: string
 }
@@ -38,66 +39,109 @@ export const exerciseDb: Record<string, ExerciseDefinition> = {
     secondaryMuscles: ['forearms'],
     category: ['isolation', 'hypertrophy'],
     equipment: ['barbell', 'dumbbell', 'cable'],
+    variations: ['standard', 'incline', 'hammer', 'preacher'],
   },
   row: {
     primaryMuscles: ['lats'],
     secondaryMuscles: ['biceps', 'core'],
     category: ['isolation', 'hypertrophy'],
+    variations: ['bentOver', 'dumbbell', 'cable'],
   },
   benchPress: {
     primaryMuscles: ['chest'],
     secondaryMuscles: ['triceps', 'shoulders'],
     category: ['compound', 'strength'],
     equipment: ['barbell', 'bench'],
+    variations: ['standard', 'incline', 'closeGrip'],
+  },
+  chestPress: {
+    primaryMuscles: ['chest'],
+    secondaryMuscles: ['triceps', 'shoulders'],
+    category: ['compound', 'strength'],
+    equipment: ['dumbbell'],
+    variations: ['standard', 'incline', 'machine'],
   },
   squat: {
     primaryMuscles: ['quads', 'glutes'],
     secondaryMuscles: ['hamstrings', 'core'],
     category: ['compound', 'strength'],
     equipment: ['barbell', 'squat rack'],
+    variations: ['standard'],
   },
   deadlift: {
     primaryMuscles: ['hamstrings', 'glutes', 'lats'],
     secondaryMuscles: ['traps', 'forearms', 'core'],
     category: ['compound', 'strength'],
     equipment: ['barbell'],
+    variations: ['romanian', 'sumo'],
   },
   overheadPress: {
     primaryMuscles: ['shoulders'],
     secondaryMuscles: ['triceps', 'traps', 'core'],
     category: ['compound', 'strength'],
     equipment: ['barbell'],
-  },
-  hammerCurl: {
-    primaryMuscles: ['biceps', 'forearms'],
-    category: ['isolation', 'hypertrophy'],
-    secondaryMuscles: [],
+    variations: ['barbell', 'dumbbell'],
   },
   pullUp: {
     primaryMuscles: ['lats', 'forearms'],
     secondaryMuscles: ['biceps', 'core'],
     category: ['strength'],
+    variations: ['standard'],
   },
   deadHang: {
     primaryMuscles: ['forearms'],
     category: ['strength'],
     secondaryMuscles: ['biceps', 'lats', 'shoulders'],
     equipment: ['pullBar'],
+    variations: ['standard'],
   },
   latPulldown: {
     primaryMuscles: ['lats'],
     category: ['isolation', 'hypertrophy'],
     secondaryMuscles: ['forearms'],
+    variations: ['standard'],
+  },
+  pushDown: {
+    primaryMuscles: ['triceps'],
+    category: ['isolation', 'hypertrophy'],
+    secondaryMuscles: ['forearms'],
+    variations: ['cable'],
+  },
+  skullCrusher: {
+    primaryMuscles: ['triceps'],
+    category: ['isolation', 'hypertrophy'],
+    secondaryMuscles: ['forearms'],
+    variations: ['dumbbell', 'barbell'],
+  },
+  dips: {
+    primaryMuscles: ['triceps'],
+    category: ['isolation', 'hypertrophy'],
+    secondaryMuscles: ['forearms'],
+    variations: ['standard'],
+  },
+  lateralRaise: {
+    primaryMuscles: ['shoulders'],
+    category: ['isolation', 'hypertrophy'],
+    secondaryMuscles: [],
+    variations: ['dumbbell', 'cable'],
   },
 }
 
-export type ExerciseType = keyof typeof exerciseDb
+type ExerciseDbKey = typeof exerciseDb
+
+export type ExerciseType = {
+  [K in keyof ExerciseDbKey]: {
+    type: K
+    variation: ExerciseDbKey[K]['variations'][number]
+  }
+}[keyof ExerciseDbKey]
 
 export interface Session {
   name?: string
   date?: string
   id: string
   exercises: Exercise[]
+  active: number
 }
 
 export interface Exercise {

@@ -22,7 +22,6 @@
   }>(data ?? { reps: 0, weight: 0 })
 
   function handleLog(editing: boolean) {
-    console.log(editing, session.activeExercise!.sets.length - 1)
     session.logSet(
       { reps: logData.reps, weight: logData.weight },
       editing ? session.activeExercise!.sets.length - 1 : undefined

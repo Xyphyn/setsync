@@ -22,7 +22,13 @@
       <div class="flex flex-col gap-2">
         {#each session.exercises as exercise}
           <div class="space-y-1 bg-zinc-900 p-3 rounded-lg">
-            <div class="capitalize font-semibold text-sm">{exercise.type}</div>
+            <div
+              class="capitalize font-semibold text-sm flex flex-row gap-1 items-center"
+            >
+              <div>{exercise.type.type}</div>
+
+              <Badge>{exercise.type.variation}</Badge>
+            </div>
             <div class="flex flex-row flex-wrap gap-1">
               {#each exercise.sets as set}
                 <Badge>{set.reps} × {set.weight}lb</Badge>
