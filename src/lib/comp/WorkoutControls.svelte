@@ -44,7 +44,7 @@
   }
 </script>
 
-<div class="items-center flex flex-col gap-2">
+<div class="items-center flex flex-col gap-2 w-full">
   <button
     onclick={handleWorkout}
     class={[
@@ -84,7 +84,7 @@
       {session.state == 'rest' ? `(${Math.floor(restTween.current)}s)` : ''}
     </span>
   </div>
-  <div class="mt-8 flex flex-col">
+  <div class="mt-8 flex flex-col w-full max-w-lg">
     rest time {restTime / 1000}
     <input
       type="range"

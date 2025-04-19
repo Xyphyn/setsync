@@ -129,6 +129,13 @@ export class Profile {
 
   constructor() {
     this.#data.sessions = Profile.loadSessions()
+
+    $effect.root(() => {
+      $effect(() => {
+        if (browser)
+          localStorage.setItem('sessions', JSON.stringify(this.#data.sessions))
+      })
+    })
   }
 
   set data(v: ProfileData) {
