@@ -19,7 +19,7 @@
 <div class="layout bg-zinc-800">
   <ModalContainer />
   <div
-    class="bg-zinc-950 flex flex-row md:flex-col p-4 h-full md:h-screen sticky top-0 z-50"
+    class="bg-zinc-950 flex flex-row md:flex-col p-4 h-full md:h-screen sticky top-0 z-50 justify-center"
   >
     <Sidebar />
   </div>

@@ -33,7 +33,7 @@ export interface ExerciseDefinition {
   notes?: string
 }
 
-export const exerciseDb: Record<string, ExerciseDefinition> = {
+export const exerciseDb = {
   bicepCurl: {
     primaryMuscles: ['biceps'],
     secondaryMuscles: ['forearms'],
@@ -154,12 +154,16 @@ export interface ExerciseSet {
   weight: number
 }
 
+type Goals = Partial<
+  Record<keyof typeof exerciseDb, { reps: number; weight: number }>
+>
 interface ProfileData {
   sessions: Session[]
   settings: {
     defaultRestTime: number
     weightUnit: 'kg' | 'lb'
   }
+  goals: Goals
 }
 
 export class Profile {
@@ -169,15 +173,25 @@ export class Profile {
       defaultRestTime: 60,
       weightUnit: 'lb',
     },
+    goals: {},
   })
 
   constructor() {
     this.#data.sessions = Profile.loadSessions()
+    this.#data.goals = Profile.loadProfileData().goals
 
     $effect.root(() => {
       $effect(() => {
         if (browser)
           localStorage.setItem('sessions', JSON.stringify(this.#data.sessions))
+      })
+      $effect(() => {
+        if (browser) {
+          localStorage.setItem(
+            'profile',
+            JSON.stringify({ goals: this.#data.goals })
+          )
+        }
       })
     })
   }
@@ -205,6 +219,17 @@ export class Profile {
     const stored = localStorage.getItem('sessions')
     if (!stored) return []
     const parsed: Session[] = JSON.parse(stored)
+    return parsed
+  }
+
+  static loadProfileData(): {
+    goals: Goals
+  } {
+    if (!browser) return { goals: {} }
+
+    const stored = localStorage.getItem('profile')
+    if (!stored) return { goals: {} }
+    const parsed: { goals: Goals } = JSON.parse(stored)
     return parsed
   }
 }
