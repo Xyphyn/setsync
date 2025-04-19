@@ -114,7 +114,11 @@
     onsubmit={(e) => {
       e.preventDefault()
 
-      addGoal(newGoal)
+      addGoal({
+        open: false,
+        type: { ...newGoal.type },
+        value: { ...newGoal.value },
+      })
       newGoal.open = false
     }}
     class="space-y-2"
