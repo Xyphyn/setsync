@@ -1,3 +1,4 @@
+import { browser } from '$app/environment'
 import {
   profile,
   type Exercise,
@@ -13,15 +14,24 @@ export class WorkoutSession {
   })
   state: 'active' | 'rest' | 'inactive' = $state('inactive')
 
-  constructor() {
+  constructor(data?: Session) {
     this.state = 'inactive'
-    this.#data.id = uuidv4()
-    this.#data.date = new Date().toISOString()
 
-    $effect(() => {
-      if (this.#data.exercises.length > 0) {
-        profile.saveSession(this.#data)
-      }
+    if (!data) {
+      this.#data.id = uuidv4()
+      this.#data.date = new Date().toISOString()
+    } else {
+      this.#data = data
+    }
+
+    if (browser) {
+      localStorage.setItem('activeSession', this.#data.id)
+    }
+
+    $effect.root(() => {
+      $effect(() => {
+        if (this.#data) this.save()
+      })
     })
   }
 
@@ -42,10 +52,25 @@ export class WorkoutSession {
     this.#data.exercises[this.#data.exercises.length] = v
   }
 
-  async save() {}
+  async save() {
+    if (browser) {
+      profile.saveSession(this.#data)
+    }
+  }
 }
 
 class SessionHandler {
+  constructor() {
+    if (!browser) return
+
+    const activeSession = localStorage.getItem('activeSession')
+    if (!activeSession) return
+
+    const found = profile.data.sessions.find((s) => s.id == activeSession)
+
+    if (found) this.active = new WorkoutSession(found)
+  }
+
   active: WorkoutSession | undefined = $state()
 
   startSession() {

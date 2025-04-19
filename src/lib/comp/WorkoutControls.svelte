@@ -1,7 +1,8 @@
 <script lang="ts">
-  import type { WorkoutSession } from '$lib/session.svelte'
+  import { action, modal } from '$lib/mono/modal'
+  import { sessionHandler, type WorkoutSession } from '$lib/session.svelte'
   import { getContext } from 'svelte'
-  import { Icon, Pause, Play, PlayPause } from 'svelte-hero-icons'
+  import { Icon, Pause, Play, PlayPause, XMark } from 'svelte-hero-icons'
   import { Tween } from 'svelte/motion'
 
   let session: WorkoutSession = getContext('session')
@@ -92,5 +93,29 @@
       step={15}
       bind:value={() => restTime / 1000, (v) => (restTime = v * 1000)}
     />
+  </div>
+  <div class="flex flex-row gap-2">
+    <button
+      onclick={() =>
+        modal({
+          title: 'Confirm',
+          body: 'This will end your running workout.',
+          actions: [
+            action({
+              type: 'danger',
+              content: 'Confirm',
+              action: () => {
+                sessionHandler.startSession()
+              },
+              close: true,
+            }),
+            action({ close: true, content: 'Cancel' }),
+          ],
+        })}
+      class="rounded-full w-8 h-8 bg-red-500 text-white
+      grid place-items-center cursor-pointer hover:bg-red-700 transition-all active:scale-95"
+    >
+      <Icon src={XMark} size="20" micro />
+    </button>
   </div>
 </div>

@@ -84,6 +84,11 @@ export const exerciseDb: Record<string, ExerciseDefinition> = {
     secondaryMuscles: ['biceps', 'lats', 'shoulders'],
     equipment: ['pullBar'],
   },
+  latPulldown: {
+    primaryMuscles: ['lats'],
+    category: ['isolation', 'hypertrophy'],
+    secondaryMuscles: ['forearms'],
+  },
 }
 
 export type ExerciseType = keyof typeof exerciseDb
